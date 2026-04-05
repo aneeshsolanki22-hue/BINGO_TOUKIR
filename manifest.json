@@ -2,7 +2,7 @@
   "name": "TOUKIR BINGO - Classic 1-25",
   "short_name": "TOUKIR BINGO",
   "description": "A perfect personal 1-25 digital BINGO board for playing with friends.",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f0c29",
   "theme_color": "#4C1D95",

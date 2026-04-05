@@ -1,9 +1,9 @@
-const CACHE_NAME = 'bingo-pwa-v2';
+const CACHE_NAME = 'bingo-pwa-v3';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon.svg'
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.svg'
 ];
 
 // Install Event
