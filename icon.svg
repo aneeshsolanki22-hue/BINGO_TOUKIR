@@ -1,17 +1,245 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8B5CF6" />
-      <stop offset="100%" stop-color="#4C1D95" />
-    </linearGradient>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="15" stdDeviation="15" flood-opacity="0.3" />
-    </filter>
+<!-- Icon shape clip -->
+<clipPath id="iconClip">
+  <rect x="0" y="0" width="512" height="512" rx="116" ry="116"/>
+</clipPath>
+
+<!-- Liquid glass base gradient — deep black -->
+<linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%"   stop-color="#1a1a1a" stop-opacity="0.85"/>
+  <stop offset="50%"  stop-color="#0a0a0a" stop-opacity="0.9"/>
+  <stop offset="100%" stop-color="#000000" stop-opacity="0.95"/>
+</linearGradient>
+
+<!-- Glass refraction layer -->
+<linearGradient id="glassBody" x1="10%" y1="0%" x2="90%" y2="100%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.12"/>
+  <stop offset="30%"  stop-color="#ffffff" stop-opacity="0.06"/>
+  <stop offset="70%"  stop-color="#ffffff" stop-opacity="0.03"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+</linearGradient>
+
+<!-- Top specular highlight -->
+<linearGradient id="topSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.45"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+</linearGradient>
+
+<!-- Side edge gleam -->
+<linearGradient id="edgeGleam" x1="0%" y1="0%" x2="100%" y2="0%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.6"/>
+  <stop offset="20%"  stop-color="#ffffff" stop-opacity="0"/>
+  <stop offset="80%"  stop-color="#ffffff" stop-opacity="0"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+</linearGradient>
+
+<!-- Bottom caustic shimmer -->
+<radialGradient id="caustic" cx="50%" cy="90%" r="55%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.22"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+</radialGradient>
+
+<!-- Inner glow for depth -->
+<radialGradient id="innerGlow" cx="38%" cy="30%" r="55%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.07"/>
+  <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+</radialGradient>
+
+<!-- Grid cell glass fill -->
+<linearGradient id="cellGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.09"/>
+  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+</linearGradient>
+
+<!-- Marked cell — royal purple liquid -->
+<radialGradient id="goldCell" cx="40%" cy="35%" r="65%">
+  <stop offset="0%"   stop-color="#c084fc" stop-opacity="0.55"/>
+  <stop offset="60%"  stop-color="#7c3aed" stop-opacity="0.45"/>
+  <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.35"/>
+</radialGradient>
+
+<!-- Gold cell sheen -->
+<linearGradient id="goldSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+  <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.28"/>
+  <stop offset="50%"  stop-color="#ffffff" stop-opacity="0"/>
+</linearGradient>
+
+<!-- Shadow under icon -->
+<filter id="iconShadow" x="-10%" y="-10%" width="120%" height="130%">
+  <feDropShadow dx="0" dy="12" stdDeviation="22" flood-color="#000000" flood-opacity="0.7"/>
+</filter>
+
+<!-- Blur for frosted glass effect on grid -->
+<filter id="frost">
+  <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
+  <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+  <feBlend in="SourceGraphic" in2="grayNoise" mode="overlay" result="blended"/>
+  <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+</filter>
+
+<!-- Soft glow on marked cells -->
+<filter id="goldGlow">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/>
+  <feFlood flood-color="#7c3aed" flood-opacity="0.4" result="color"/>
+  <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+  <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+
+<!-- Letter glow -->
+<filter id="letterGlow">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+  <feFlood flood-color="#ffffff" flood-opacity="0.9" result="color"/>
+  <feComposite in="color" in2="blur" operator="in" result="glow"/>
+  <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
   </defs>
-  <rect width="512" height="512" rx="100" fill="url(#bg)" />
-  <circle cx="256" cy="256" r="140" fill="#FFFFFF" filter="url(#shadow)" />
-  <text x="256" y="270" font-family="'Inter', sans-serif" font-weight="900" font-size="65" fill="#4C1D95" text-anchor="middle" dominant-baseline="middle">TOUKIR</text>
-  <circle cx="160" cy="160" r="30" fill="#FBBF24" />
-  <circle cx="350" cy="400" r="20" fill="#F472B6" />
-  <circle cx="400" cy="180" r="25" fill="#34D399" />
+
+  <!-- Drop shadow wrapper -->
+
+  <g filter="url(#iconShadow)">
+    <rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#bgGrad)"/>
+  </g>
+
+  <g clip-path="url(#iconClip)">
+<!-- Sky-blue background base -->
+<rect x="0" y="0" width="512" height="512" fill="url(#bgGrad)"/>
+
+<!-- Ambient depth blob top-left -->
+<ellipse cx="120" cy="110" rx="180" ry="130" fill="#2a2a2a" opacity="0.5"/>
+
+<!-- Ambient depth blob bottom-right -->
+<ellipse cx="390" cy="400" rx="160" ry="120" fill="#111111" opacity="0.6"/>
+
+<!-- Glass body layer -->
+<rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#glassBody)"/>
+
+<!-- Inner glow -->
+<rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#innerGlow)"/>
+
+<!-- ── BINGO GRID ── -->
+<!-- 5×5 grid centered, each cell 72px, gap 8px, total = 5*72+4*8 = 392, offset = (512-392)/2 = 60 -->
+
+<!-- Row 0: B I N G O -->
+<!-- Marked: B(0,0), N(0,2), O(0,4) -->
+<!-- Cell (0,0) — marked gold -->
+<g filter="url(#goldGlow)">
+  <rect x="60" y="72" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="60" y="72" width="72" height="28" rx="14" fill="url(#goldSheen)" clip-path="url(#iconClip)"/>
+  <rect x="60" y="86" width="72" height="14" fill="url(#goldSheen)" opacity="0.5"/>
+</g>
+<!-- Cell (0,1) — glass -->
+<rect x="140" y="72" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="140" y="72" width="72" height="26" rx="12" fill="#ffffff" opacity="0.3"/>
+<!-- Cell (0,2) — marked gold -->
+<g filter="url(#goldGlow)">
+  <rect x="220" y="72" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="220" y="72" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<!-- Cell (0,3) — glass -->
+<rect x="300" y="72" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="300" y="72" width="72" height="26" rx="12" fill="#ffffff" opacity="0.3"/>
+<!-- Cell (0,4) — marked gold -->
+<g filter="url(#goldGlow)">
+  <rect x="380" y="72" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="380" y="72" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+
+<!-- Row 1 -->
+<rect x="60"  y="152" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="60"  y="152" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="140" y="152" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="140" y="152" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<rect x="220" y="152" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="220" y="152" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<rect x="300" y="152" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="300" y="152" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="380" y="152" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="380" y="152" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+
+<!-- Row 2 (FREE row) — all glass, center FREE marked -->
+<rect x="60"  y="232" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="60"  y="232" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<rect x="140" y="232" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="140" y="232" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- FREE center — gold -->
+<g filter="url(#goldGlow)">
+  <rect x="220" y="232" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="220" y="232" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<rect x="300" y="232" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="300" y="232" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<rect x="380" y="232" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="380" y="232" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+
+<!-- Row 3 -->
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="60"  y="312" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="60"  y="312" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<rect x="140" y="312" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="140" y="312" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<rect x="220" y="312" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="220" y="312" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="300" y="312" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="300" y="312" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<rect x="380"  y="312" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="380"  y="312" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+
+<!-- Row 4 -->
+<rect x="60"  y="392" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="60"  y="392" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="140" y="392" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="140" y="392" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+<rect x="220" y="392" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="220" y="392" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<rect x="300" y="392" width="72" height="72" rx="14" fill="url(#cellGlass)"/>
+<rect x="300" y="392" width="72" height="26" rx="12" fill="#ffffff" opacity="0.28"/>
+<!-- marked -->
+<g filter="url(#goldGlow)">
+  <rect x="380" y="392" width="72" height="72" rx="14" fill="url(#goldCell)"/>
+  <rect x="380" y="392" width="72" height="26" rx="12" fill="url(#goldSheen)"/>
+</g>
+
+<!-- ── TOUKIR text across top area ── -->
+<text x="256" y="108" font-family="'Bebas Neue', 'Impact', sans-serif" font-size="52" text-anchor="middle" dominant-baseline="middle" letter-spacing="8" fill="#ffffff" opacity="0.95" filter="url(#letterGlow)">TOUKIR</text>
+
+<!-- ── SANA text on center cell ── -->
+<text x="256" y="270" font-family="'Bebas Neue', Impact, sans-serif" font-size="38" text-anchor="middle" dominant-baseline="middle" letter-spacing="6" fill="#c084fc" opacity="0.95" filter="url(#letterGlow)">SANA</text>
+
+<!-- ── GLASS OVERLAY LAYERS (liquid depth) ── -->
+
+<!-- Top highlight bar — bright specular -->
+<rect x="0" y="0" width="512" height="80" rx="116" fill="url(#topSheen)" opacity="0.75"/>
+<!-- Thin top rim line -->
+<rect x="16" y="14" width="480" height="3" rx="2" fill="#ffffff" opacity="0.55"/>
+
+<!-- Edge gleam sides -->
+<rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#edgeGleam)" opacity="0.55"/>
+
+<!-- Bottom caustic -->
+<rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="url(#caustic)"/>
+
+<!-- Liquid ripple blob — top right -->
+<ellipse cx="400" cy="80" rx="90" ry="45" fill="#ffffff" opacity="0.18" transform="rotate(-18 400 80)"/>
+
+<!-- Liquid ripple blob — lower left -->
+<ellipse cx="100" cy="420" rx="80" ry="38" fill="#ffffff" opacity="0.12" transform="rotate(12 100 420)"/>
+
+<!-- Outer border ring — subtle glass edge -->
+<rect x="2" y="2" width="508" height="508" rx="115" ry="115" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.35"/>
+  </g>
 </svg>
