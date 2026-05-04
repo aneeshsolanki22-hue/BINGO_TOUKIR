@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bingo-pwa-v11';
+const CACHE_NAME = 'bingo-pwa-v12';
 const ASSETS = [
   './',
   './index.html',

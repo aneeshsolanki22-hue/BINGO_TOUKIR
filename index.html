@@ -420,6 +420,8 @@
   }
 
   // --- GUEST NETWORKING ---
+  let joinTimeout = null;
+
   function joinRoom() {
     myName = document.getElementById('input-name').value.trim();
     myPassword = document.getElementById('input-password').value.trim();
@@ -427,13 +429,29 @@
     
     localStorage.setItem('bingo-name', myName);
     isHost = false;
-    updateStatus('home-status', 'Connecting...');
+    updateStatus('home-status', 'Connecting to server...');
     
+    // Destroy old peer if exists
+    if(peer) { try { peer.destroy(); } catch(e){} }
+
     peer = new Peer(undefined, { config: ICE_CONFIG });
+
     peer.on('open', (id) => {
-      hostConnection = peer.connect(getSafeRoomId(myPassword));
+      updateStatus('home-status', 'Finding room...');
+      hostConnection = peer.connect(getSafeRoomId(myPassword), { reliable: true });
+
+      // --- TIMEOUT: 15 seconds to connect or fail ---
+      if(joinTimeout) clearTimeout(joinTimeout);
+      joinTimeout = setTimeout(() => {
+        if(!hostConnection || !hostConnection.open) {
+          updateStatus('home-status', 'Connection timed out! Room may not exist or network blocked. Try again.', true);
+          try { peer.destroy(); } catch(e){}
+          peer = null; hostConnection = null;
+        }
+      }, 15000);
 
       hostConnection.on('open', () => {
+        clearTimeout(joinTimeout);
         hostConnection.send({ type: 'JOIN', name: myName });
         document.getElementById('display-password').textContent = myPassword;
         showScreen('screen-lobby');
@@ -452,13 +470,30 @@
         else if(data.type === 'GAMEOVER') presentGameOver(data.winnerName, data.isFinal, data.scoresMap);
       });
 
+      hostConnection.on('error', (err) => {
+        clearTimeout(joinTimeout);
+        updateStatus('home-status', `Failed to connect: ${err.type || 'Unknown error'}. Check room code.`, true);
+      });
+
       hostConnection.on('close', () => {
-        alert("The Host has disconnected.");
-        window.location.reload();
+        clearTimeout(joinTimeout);
+        if(document.getElementById('screen-home').classList.contains('active')) {
+          updateStatus('home-status', 'Room not found or host offline. Check code and try again.', true);
+        } else {
+          alert("The Host has disconnected.");
+          window.location.reload();
+        }
       });
     });
 
-    peer.on('error', () => updateStatus('home-status', `Connection Error! Check code.`, true));
+    peer.on('error', (err) => {
+      clearTimeout(joinTimeout);
+      if(err.type === 'peer-unavailable') {
+        updateStatus('home-status', 'Room not found! Check code or ask host to re-create.', true);
+      } else {
+        updateStatus('home-status', `Connection Error: ${err.type || err.message}`, true);
+      }
+    });
   }
 
   function broadcastToGuests(data) {
